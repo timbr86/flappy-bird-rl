@@ -23,8 +23,9 @@ while running:
     screen.fill((135, 206, 235))    # sky
     pygame.draw.circle(screen, (255, 220, 0), (100, int(game.bird_y)), 15)    # bird
 
-    for rectangle in game.pipe.rectangles():    #draw bottom and top rect to form a pipe
-        pygame.draw.rect(screen, (0, 255, 100), rectangle)
+    for pipe in game.pipes:
+        for rectangle in pipe.rectangles():    #draw bottom and top rect to form a pipe
+            pygame.draw.rect(screen, (0, 255, 100), rectangle)
 
     pygame.display.flip()
     clock.tick(60)

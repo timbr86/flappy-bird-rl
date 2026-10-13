@@ -1,6 +1,7 @@
 # game physics and logic
 
 import random
+import collections
 
 GRAVITY, FLAP_SPEED = 0.3, 7
 SCREEN_WIDTH, SCREEN_HEIGHT = 500, 800
@@ -32,14 +33,30 @@ class FlappyGame:
     def reset(self):
         self.bird_y = 400
         self.bird_velo = 0
+        self.frame_counter = 0
+        self.pipes = collections.deque();
+        self.create_pipe()
+        
+
+    def create_pipe(self):
         pipe_gap_y = self.rng.randint(MARGIN, SCREEN_HEIGHT - GAP_HEIGHT - MARGIN)
-        self.pipe = Pipe(pipe_gap_y)
+        self.pipes.append(Pipe(pipe_gap_y))
 
     def step(self, flap):
         if flap:
             self.bird_velo = FLAP_SPEED
+
         self.bird_velo -= GRAVITY
         self.bird_y -= self.bird_velo
-        self.pipe.move()
 
+        if self.frame_counter == 200:
+            self.create_pipe()
+            self.frame_counter = 0
 
+        for pipe in self.pipes:
+            pipe.move()
+
+        if self.pipes[0].x + PIPE_WIDTH < 0:
+            self.pipes.popleft()
+
+        self.frame_counter += 1
