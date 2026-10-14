@@ -1,7 +1,7 @@
 # actual playable game using physics defined in game.py
 
 import pygame
-from game import FlappyGame, SCREEN_HEIGHT, SCREEN_WIDTH
+from game import FlappyGame, SCREEN_HEIGHT, SCREEN_WIDTH, BIRD_RADIUS, BIRD_X
 
 # pygame setup
 pygame.init()
@@ -21,9 +21,9 @@ while running:
             flap = True
     game.step(flap)
     screen.fill((135, 206, 235))    # sky
-    pygame.draw.circle(screen, (255, 220, 0), (100, int(game.bird_y)), 15)    # bird
+    pygame.draw.circle(screen, (255, 220, 0), (BIRD_X, int(game.bird_y)), BIRD_RADIUS)    # bird
 
-    for pipe in game.pipes:
+    for pipe in game.pipes: 
         for rectangle in pipe.rectangles():    #draw bottom and top rect to form a pipe
             pygame.draw.rect(screen, (0, 255, 100), rectangle)
 
